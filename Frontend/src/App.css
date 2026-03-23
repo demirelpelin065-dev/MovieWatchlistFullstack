@@ -1,0 +1,69 @@
+.container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  color: #1f2937;
+}
+
+.add-movie {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.add-movie input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+}
+
+.add-movie button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+}
+
+.add-movie button:hover {
+  background-color: #2563eb;
+}
+
+.movie-list {
+  list-style: none;
+  padding: 0;
+}
+
+.movie-list li {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f3f4f6;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.movie-list button {
+  margin-left: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+.movie-list button:first-of-type {
+  background-color: #facc15;
+  color: #1f2937;
+}
+
+.movie-list button:last-of-type {
+  background-color: #ef4444;
+  color: white;
+}

@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
-import './App.css';
+﻿import { useState, useEffect } from 'react';
+import { Button, TextField, Card, CardContent, CardActions, Typography } from '@mui/material';
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [title, setTitle] = useState('');
   const [year, setYear] = useState('');
+
+  useEffect(() => { fetchMovies(); }, []);
 
   const fetchMovies = () => {
     fetch('http://localhost:5000/api/movies')
@@ -12,53 +14,43 @@ function App() {
       .then(data => setMovies(data));
   };
 
-  useEffect(() => { fetchMovies(); }, []);
-
   const addMovie = async () => {
-    if(!title || !year) return alert('Title and year required');
+    if (!title || !year) return;
     await fetch('http://localhost:5000/api/movies', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, year: parseInt(year) })
+      body: JSON.stringify({ title, year: parseInt(year) }),
     });
     setTitle(''); setYear('');
     fetchMovies();
   };
 
   const deleteMovie = async (id) => {
-    await fetch(`http://localhost:5000/api/movies/${id}`, { method: 'DELETE' });
-    fetchMovies();
-  };
-
-  const updateMovie = async (id) => {
-    const newTitle = prompt('New title:');
-    const newYear = prompt('New year:');
-    if(!newTitle || !newYear) return;
-    await fetch(`http://localhost:5000/api/movies/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: newTitle, year: parseInt(newYear) })
-    });
+    await fetch(\http://localhost:5000/api/movies/\\, { method: 'DELETE' });
     fetchMovies();
   };
 
   return (
-    <div className="container">
-      <h1>🎬 Movie Watchlist</h1>
-      <div className="add-movie">
-        <input placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} />
-        <input placeholder="Year" value={year} onChange={e=>setYear(e.target.value)} />
-        <button onClick={addMovie}>Add Movie</button>
+    <div className='p-8 min-h-screen'>
+      <header className='text-4xl font-bold text-center mb-8'>🎬 My Movie Watchlist</header>
+      <div className='flex justify-center gap-4 mb-6'>
+        <TextField label='Title' value={title} onChange={e=>setTitle(e.target.value)} size='small'/>
+        <TextField label='Year' value={year} onChange={e=>setYear(e.target.value)} size='small' type='number'/>
+        <Button variant='contained' onClick={addMovie}>Add Movie</Button>
       </div>
-      <ul className="movie-list">
-        {movies.map(movie => (
-          <li key={movie.id}>
-            {movie.title} ({movie.year})
-            <button onClick={()=>updateMovie(movie.id)}>Edit</button>
-            <button onClick={()=>deleteMovie(movie.id)}>Delete</button>
-          </li>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+        {movies.map(movie=>(
+          <Card key={movie.id} className='shadow-lg hover:shadow-2xl transition-all duration-300'>
+            <CardContent>
+              <Typography variant='h6'>{movie.title}</Typography>
+              <Typography color='textSecondary'>{movie.year}</Typography>
+            </CardContent>
+            <CardActions className='justify-end'>
+              <Button size='small' color='error' onClick={()=>deleteMovie(movie.id)}>Delete</Button>
+            </CardActions>
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
